@@ -13,9 +13,13 @@ void ofApp::setup(){
 		player.load(result.getPath());
 	}
 #else
-	
-
-	player.load( ofToDataPath("../../../../../examples/sound/soundPlayerExample/bin/data/sounds/beat.wav",true),
+    ofDirectory dir;
+    dir.listDir("sounds");
+    for(int i = 0; i < dir.size(); i ++){
+        ofLogNotice() << ofToDataPath(dir.getPath(i), true );
+    }
+    
+	player.load( ofToDataPath("sounds/synth.mp3", true),
 				//set the following to true if you want to stream the audio data from the disk on demand instead of
 				//reading the whole file into memory. Default is false
 				false);
@@ -36,7 +40,7 @@ void ofApp::setup(){
 	
 	int outDeviceIndex = 0;
 	
-	cout << ofxSoundUtils::getSoundDeviceString(outDevices[outDeviceIndex], false, true) << endl;
+	//cout << ofxSoundUtils::getSoundDeviceString(outDevices[outDeviceIndex], false, true) << endl;
 	
 	
 	ofSoundStreamSettings soundSettings;
@@ -56,16 +60,6 @@ void ofApp::setup(){
 	//-------Sound stream setup end -------.
 	
 
-	// ------- GUI setup begin -------
-	gui.setup();
-	gui.add(pan.set("PAN", 0, -1,1));
-	gui.add(player.volume);
-	gui.add(speed.set("Speed", 1, 0, 10));
-	
-	//----- gui listeners
-	pan.addListener(this, &ofApp::panChanged);
-	speed.addListener(this, &ofApp::speedChanged);
-	// ------- GUI setup end -------
 
 	
 	// ------ waveforms ---------
@@ -73,8 +67,8 @@ void ofApp::setup(){
 	// you can skip this and pass this while drawing if you are changing where this is going to be drawn.
 	// As well, the waveformDraw class inherits from ofRectangle so you can access the functions of the latter.
 	
-	float x = gui.getShape().getMaxX()+10;
-	fullFileWaveform.setup( x, 0, ofGetWidth() - x, ofGetHeight()/3);
+	
+	fullFileWaveform.setup( 0, 0, ofGetWidth(), ofGetHeight()/3);
 	wave.setup(0, fullFileWaveform.getMaxY(), ofGetWidth(), ofGetHeight() - fullFileWaveform.getMaxY());
 	// the fullFileWaveform object will have a static waveform for the whole audio file data. This is only created once as it will read the whole sound file data.
 	// For such, we need to get the sound buffer from the sound file in order to get the whole file's data.
@@ -110,15 +104,6 @@ void ofApp::playerEnded(size_t & id){
 	
 }
 //--------------------------------------------------------------
-void ofApp::speedChanged(float&){
-	player.setSpeed(speed);
-}
-//--------------------------------------------------------------
-void ofApp::panChanged(float&f){
-	
-	player.setPan(pan);
-}
-//--------------------------------------------------------------
 void ofApp::exit(){
 	stream.close();
 }
@@ -144,30 +129,54 @@ void ofApp::draw(){
 
 	
 	ofSetColor(ofColor::yellow);
-	player.drawDebug(20, gui.getShape().getMaxY() + 20);
+	player.drawDebug(20, 20);
 	
-	gui.draw();
 }
+
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){}
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){}
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){}
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){}
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){}
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-	// if you clic and release you'll move the player to the position relative to the mouse
-	if(fullFileWaveform.inside(x, y)){
-	player.setPositionMS(ofMap(x, fullFileWaveform.getMinX(), fullFileWaveform.getMaxX(), 0, player.getDurationMS()));
-	}
+void ofApp::touchDown(ofTouchEventArgs & touch){
+ 
 }
+
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){}
+void ofApp::touchUp(ofTouchEventArgs & touch){
+    if(fullFileWaveform.inside(touch.x, touch.y)){
+    player.setPositionMS(ofMap(touch.x, fullFileWaveform.getMinX(), fullFileWaveform.getMaxX(), 0, player.getDurationMS()));
+    }
+}
+
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){}
+void ofApp::touchMoved(ofTouchEventArgs & touch){
+    
+}
+
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){}
+void ofApp::touchDoubleTap(ofTouchEventArgs & touch){
+
+}
+
+//--------------------------------------------------------------
+void ofApp::touchCancelled(ofTouchEventArgs & touch){
+
+}
+
+//--------------------------------------------------------------
+void ofApp::lostFocus(){
+    
+}
+
+//--------------------------------------------------------------
+void ofApp::gotFocus(){
+    
+}
+
+//--------------------------------------------------------------
+void ofApp::gotMemoryWarning(){
+    
+}
+
+//--------------------------------------------------------------
+void ofApp::deviceOrientationChanged(int newOrientation){
+    
+}
+
