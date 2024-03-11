@@ -1,41 +1,39 @@
 #pragma once
 
-#include "ofMain.h"
+
+#include "ofxiOS.h"
+
 
 #include "waveformDraw.h"
 
 #include "ofxSoundPlayerObject.h"
-#include "ofxGui.h"
+//#include "ofxGui.h"
 
 #include "SineWaveGenerator.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofxiOSApp{
 
 public:
 	void setup();
 	void update();
 	void draw();
     void exit();
-	void keyPressed  (int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y );
-	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
+    void touchDown(ofTouchEventArgs & touch);
+    void touchMoved(ofTouchEventArgs & touch);
+    void touchUp(ofTouchEventArgs & touch);
+    void touchDoubleTap(ofTouchEventArgs & touch);
+    void touchCancelled(ofTouchEventArgs & touch);
+    
+    void lostFocus();
+    void gotFocus();
+    void gotMemoryWarning();
+    void deviceOrientationChanged(int newOrientation);
 
     ofSoundStream stream;
     ofxSoundOutput output;
 	// these are all subclasses of ofSoundObject
 	ofxSoundPlayerObject player;
 	waveformDraw wave;
-
-    ofxPanel gui;
-    ofParameter<float> pan, speed;
-    void speedChanged(float&);
-	void panChanged(float&f);
 
 	
 //	vector<ofMesh> waveforms;
