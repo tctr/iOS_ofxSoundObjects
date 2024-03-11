@@ -1,3 +1,6 @@
+## this a modified version of Roy Macdonald ofxSoundObjects with example-soundPlayerObject working for iOS
+
+
 # ofxSoundObjects
 ## Simple yet super powerful modular sound architecture for openFrameworks.
 It allows to connect any sound source, process, display and output it in any way needed. It is capable of reading and writing audio files. 
