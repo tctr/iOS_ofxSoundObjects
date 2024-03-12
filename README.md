@@ -1,4 +1,4 @@
-## this a modified version of Roy Macdonald ofxSoundObjects with example-soundPlayerObject working for iOS
+## This a modified version of [Roy Macdonald](https://github.com/roymacdonald/)'s [ofxSoundObjects](https://github.com/roymacdonald/ofxSoundObjects) addon to [openFrameworks](https://openframeworks.cc) with example-soundPlayerObject working for iOS
 
 
 # ofxSoundObjects
